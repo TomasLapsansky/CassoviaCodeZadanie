@@ -1,0 +1,12 @@
+INSERT user;id[unique=true];email;login;password;deleted;
+;1;user@email.com;user;123456;0;
+
+INSERT product;id[unique=true];name;description;price;deleted;
+;2;product1;product1;4.99;0;
+;3;product2;product2;5.99;0;
+
+INSERT user_order;id[unique=true];name;description;change;user_id
+;4;order;mynote;0;1;
+
+INSERT user_order_item;id[unique=true];order_id;product_id;amount;price
+;5;4;2;1;4.99;

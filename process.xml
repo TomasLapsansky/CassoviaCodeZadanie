@@ -1,0 +1,48 @@
+<?xml version="1.0"encoding="utf-8"?>
+<process xmlns="http://www.hybris.de/xsd/processdefinition" name="mcDrive" start="greeting">
+    
+    <action id="greeting" bean="greeting">
+        <transition name="OK" to="askOrder"/>
+    </action>
+    
+    <action id="askOrder" bean="askOrder">
+        <transition name="ADD" to="addToOrder"/>
+        <transition name="REMOVE" to="removeFromOrder"/>
+        <transition name="ALL" to="askControl"/>
+        <transition name="REJECT" to="failed"/>
+    </action>
+    
+    <action id="addToOrder" bean="addToOrder">
+        <transition name="OK" to="askOrder"/>
+    </action>
+    
+    <action id="removeFromOrder" bean="removeFromOrder">
+        <transition name="OK" to="askOrder"/>
+    </action>
+    
+    <action id="askControl" bean="askControl">
+        <transition name="OK" to="askPayment"/>
+        <transition name="NOK" to="addToOrder"/>
+    </action>
+    
+    <action id="askPayment" bean="askPayment">
+        <transition name="OK" to="processOrder"/>
+        <transition name="NOK" to="failed"/>
+    </action>
+    
+    <action id="processOrder" bean="processOrder">
+        <transition name="OK" to="waitForFood"/>
+    </action>
+    
+    <wait id="waitForFood" then="isProcessCompleted">
+        <event>MakeFoodByOrder</event>
+    </wait>
+    
+    <action id="isProcessCompleted" bean="subprocessesCompleted">
+        <transition name="OK" to="success"/>
+        <transition name="NOK" to="waitForFood"/>
+    </action>
+    
+    <end id="failed" state="FAILED">Order failed.</end>
+    <end id="success" state="SUCCEEDED">Order completed.</end>
+</process>
